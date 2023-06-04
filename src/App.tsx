@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
+
+import './App.css'
+
 import List from './components/List'
 import Form from './components/Forms'
-import './App.css'
-// import List from './components/List'
+
+import { Sub } from './types'
+
 
 interface AppState {
   subscriber: Array<Sub>
@@ -24,12 +28,7 @@ const INITIAL_STATE = [
   }
 ]
 
-interface  Sub { 
-  nick: string
-  avatar: string
-  subMonths: number
-  description?: string
-}
+
 
 function App() {
   // const [subscriber, setSubscriber] = useState<Sub[]>([])  // first form
