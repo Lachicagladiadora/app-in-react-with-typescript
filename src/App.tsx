@@ -61,7 +61,7 @@ function App() {
 
         <List subscriber={subscriber}/>
 
-        <Form/>
+        <Form onNewSubscriber={setSubscriber}/>
         
       </div>
     </>
