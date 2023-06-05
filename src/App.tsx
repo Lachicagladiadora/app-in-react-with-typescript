@@ -5,7 +5,7 @@ import './App.css'
 import List from './components/List'
 import Form from './components/Forms'
 
-import { Sub } from './types'
+import { Sub, SubsResponseFromApi } from './types'
 
 
 interface AppState {
@@ -14,19 +14,19 @@ interface AppState {
   newSubsNumber: number
 }
 
-const INITIAL_STATE = [
-  {
-    nick: 'monica', 
-    subMonths: 3,
-    avatar: 'https://i.pravatar.cc/150?u=monica',
-    description: 'Monica is a moderator sometimes'
-  },
-  {
-    nick: 'adolfo', 
-    subMonths: 3,
-    avatar: 'https://i.pravatar.cc/150?u=adolfo',
-  }
-]
+// const INITIAL_STATE = [
+//   {
+    // nick: 'monica', 
+    // subMonths: 3,
+    // avatar: 'https://i.pravatar.cc/150?u=monica',
+    // description: 'Monica is a moderator sometimes'
+//   },
+//   {
+//     nick: 'adolfo', 
+//     subMonths: 3,
+//     avatar: 'https://i.pravatar.cc/150?u=adolfo',
+//   }
+// ]
 
 function App() {
   // const [subscriber, setSubscriber] = useState<Sub[]>([])  // first form
@@ -35,11 +35,40 @@ function App() {
   const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setSubscriber(INITIAL_STATE)
+    // setSubscriber(INITIAL_STATE)
+    const fetchSubs = (): Promise<SubsResponseFromApi> => {
+      return  fetch: ('http://localhost:3001/subs').then(response => response.json()) // as Promise<SubsResponseFromApi>)
+    }      
+
+    const mapFromApiToSubs = (apiResponse: SubsResponseFromApi): Array<Sub> => {
+      return apiResponse.map(subFromApi => {
+        const {
+          nick,
+          profileUrl: avatar,
+          months: subMonths, 
+          description,
+        } = subFromApi
+        return {
+          nick, 
+          avatar,
+          subMonths,
+          description,
+        }
+      })
+    }
+
+    fetchSubs ()//: 'https://picsum.photos/200'    
+    // .then(apiSubs => {
+      // const subs = mapFromApiToSubs(apiSubs)
+      // setSubscriber(subs)
+    // })
+     .then(mapFromApiToSubs)
+     .then(setSubscriber)
   }, [])
 
   const handleSubmit = (newSubscriber: Sub): void => {
     setSubscriber(subscriber => [... subscriber, newSubscriber])
+    setNewSubsNumber(newSubsNumber => (newSubsNumber + 1))
   }
 
   return (
@@ -62,6 +91,8 @@ function App() {
         </h2>
 
         <List subscriber={subscriber}/>
+
+        New Subscribers: {newSubsNumber}
 
         <Form onNewSubscriber={handleSubmit}/>
         

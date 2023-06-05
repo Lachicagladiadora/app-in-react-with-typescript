@@ -59,8 +59,10 @@ const Form = ({onNewSubscriber}: FormProps) => {
         <input onChange={handleChange} value={inputValues.subMonths} type="number" name="subMonths" placeholder="subMonths"/>
         <textarea onChange={handleChange} value={inputValues.description} name="description" placeholder="description"/>
 
-        <button onClick={handleClear} type="button" >Clear the form</button>
-        <button type="submit">Save new SUBSCRIBER!</button>
+        <div className="button-contain">
+          <button onClick={handleClear} type="button" >Clear the form</button>
+          <button type="submit">Save new SUBSCRIBER!</button>
+        </div>
 
       </form>
     </div>
