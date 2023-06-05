@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import './App.css'
 
@@ -28,17 +28,19 @@ const INITIAL_STATE = [
   }
 ]
 
-
-
 function App() {
   // const [subscriber, setSubscriber] = useState<Sub[]>([])  // first form
   const [subscriber, setSubscriber] = useState<AppState["subscriber"]>([])
   const [newSubsNumber, setNewSubsNumber] = useState<AppState["newSubsNumber"]>(0)
-
+  const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setSubscriber(INITIAL_STATE)
   }, [])
+
+  const handleSubmit = (newSubscriber: Sub): void => {
+    setSubscriber(subscriber => [... subscriber, newSubscriber])
+  }
 
   return (
     <>
@@ -50,7 +52,7 @@ function App() {
         App in React with Typescript
       </h5>
       
-      <div className="app">
+      <div className="app" ref={divRef}>
         <h2 
           style={{
             textTransform: 'uppercase'
@@ -61,7 +63,7 @@ function App() {
 
         <List subscriber={subscriber}/>
 
-        <Form onNewSubscriber={setSubscriber}/>
+        <Form onNewSubscriber={handleSubmit}/>
         
       </div>
     </>
